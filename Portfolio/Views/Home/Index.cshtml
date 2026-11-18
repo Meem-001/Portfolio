@@ -1,0 +1,219 @@
+@model PortfolioModel
+
+<!-- ============ HERO ============ -->
+<section class="hero container" id="hero">
+    <p class="hero-hello reveal">Hello, I'm</p>
+    <h1 class="hero-name reveal">@Model.Name</h1>
+    <p class="hero-tagline reveal">@Model.Tagline</p>
+    <p class="hero-intro reveal">@Model.Intro</p>
+    <p class="hero-location reveal">@Html.Raw(Icons.Get("pin")) @Model.Location</p>
+    <div class="hero-actions reveal">
+        <a class="btn btn-primary" href="#projects">View my work</a>
+        <a class="btn btn-ghost" href="#contact">Get in touch</a>
+        @if (!string.IsNullOrEmpty(Model.ResumeUrl))
+        {
+            <a class="btn btn-ghost" href="@Model.ResumeUrl" target="_blank" rel="noopener">@Html.Raw(Icons.Get("file")) Résumé</a>
+        }
+    </div>
+    <div class="hero-socials reveal">
+        @foreach (var c in Model.Contacts)
+        {
+            <a href="@c.Url" target="_blank" rel="noopener" aria-label="@c.Label" title="@c.Label">@Html.Raw(Icons.Get(c.Icon))</a>
+        }
+    </div>
+</section>
+
+<!-- ============ EDUCATION ============ -->
+<section class="section container" id="education">
+    <div class="section-head reveal">
+        <span class="kicker">01</span>
+        <h2>@Html.Raw(Icons.Get("cap")) Education</h2>
+    </div>
+    <ol class="timeline">
+        @foreach (var e in Model.Education)
+        {
+            <li class="timeline-item reveal">
+                <span class="timeline-period">@e.Period</span>
+                <div class="timeline-body">
+                    <h3>@e.Degree</h3>
+                    <p class="muted-strong">@e.Institution</p>
+                    <p class="muted">@e.Detail</p>
+                </div>
+            </li>
+        }
+    </ol>
+</section>
+
+<!-- ============ COMPETITIVE PROGRAMMING ============ -->
+<section class="section section-alt" id="competitive-programming">
+    <div class="container">
+        <div class="section-head reveal">
+            <span class="kicker">02</span>
+            <h2>@Html.Raw(Icons.Get("trophy")) Competitive Programming</h2>
+        </div>
+        @if (!string.IsNullOrEmpty(Model.CpSummary))
+        {
+            <p class="section-lead reveal">@Model.CpSummary</p>
+        }
+        <div class="card-grid">
+            @foreach (var p in Model.CompetitiveProgramming)
+            {
+                <a class="card cp-card reveal" href="@p.Url" target="_blank" rel="noopener">
+                    <span class="cp-platform">@p.Platform</span>
+                    <span class="cp-handle">@@@p.Handle</span>
+                    @if (!string.IsNullOrEmpty(p.Rating))
+                    {
+                        <span class="cp-rating">@p.Rating</span>
+                    }
+                    @if (!string.IsNullOrEmpty(p.Note))
+                    {
+                        <span class="cp-note">@p.Note</span>
+                    }
+                    <span class="card-arrow">@Html.Raw(Icons.Get("external"))</span>
+                </a>
+            }
+        </div>
+
+        @if (Model.CpAchievements.Count > 0)
+        {
+            <h3 class="subhead reveal">Contest Achievements</h3>
+            <div class="stack achievements">
+                @foreach (var a in Model.CpAchievements)
+                {
+                    <a class="card achievement reveal" href="@a.Url" target="_blank" rel="noopener">
+                        <span class="achievement-icon">@Html.Raw(Icons.Get("trophy"))</span>
+                        <span class="achievement-body">
+                            <span class="achievement-title">@a.Title</span>
+                            <span class="achievement-detail">@a.Detail</span>
+                        </span>
+                        <span class="achievement-link">Standings @Html.Raw(Icons.Get("external"))</span>
+                    </a>
+                }
+            </div>
+        }
+    </div>
+</section>
+
+<!-- ============ SKILLS ============ -->
+<section class="section container" id="skills">
+    <div class="section-head reveal">
+        <span class="kicker">03</span>
+        <h2>@Html.Raw(Icons.Get("code")) Skills</h2>
+    </div>
+    <div class="skills-grid">
+        @foreach (var g in Model.Skills)
+        {
+            <div class="skill-group reveal">
+                <h3>@g.Category</h3>
+                <ul class="chips">
+                    @foreach (var s in g.Items)
+                    {
+                        <li class="chip">@s</li>
+                    }
+                </ul>
+            </div>
+        }
+    </div>
+</section>
+
+<!-- ============ PROJECTS ============ -->
+<section class="section section-alt" id="projects">
+    <div class="container">
+        <div class="section-head reveal">
+            <span class="kicker">04</span>
+            <h2>@Html.Raw(Icons.Get("code")) Projects</h2>
+        </div>
+        <div class="card-grid projects-grid">
+            @foreach (var pr in Model.Projects)
+            {
+                <article class="card project-card reveal">
+                    <h3>@pr.Name</h3>
+                    <p class="muted">@pr.Description</p>
+                    <ul class="chips chips-sm">
+                        @foreach (var t in pr.Tech)
+                        {
+                            <li class="chip">@t</li>
+                        }
+                    </ul>
+                    <div class="project-links">
+                        @if (!string.IsNullOrEmpty(pr.CodeUrl))
+                        {
+                            <a href="@pr.CodeUrl" target="_blank" rel="noopener">@Html.Raw(Icons.Get("github")) Code</a>
+                        }
+                        @if (!string.IsNullOrEmpty(pr.DemoUrl))
+                        {
+                            <a href="@pr.DemoUrl" target="_blank" rel="noopener">@Html.Raw(Icons.Get("external")) Live demo</a>
+                        }
+                    </div>
+                </article>
+            }
+        </div>
+    </div>
+</section>
+
+<!-- ============ RESEARCH ============ -->
+<section class="section container" id="research">
+    <div class="section-head reveal">
+        <span class="kicker">05</span>
+        <h2>@Html.Raw(Icons.Get("flask")) Research</h2>
+    </div>
+    <div class="stack">
+        @foreach (var r in Model.Research)
+        {
+            <article class="card research-card reveal">
+                <div class="research-top">
+                    <h3>@r.Title</h3>
+                    <span class="badge">@r.Status</span>
+                </div>
+                <p class="muted-strong">@r.Venue</p>
+                <p class="muted">@r.Description</p>
+                @if (!string.IsNullOrEmpty(r.Url))
+                {
+                    <a class="text-link" href="@r.Url" target="_blank" rel="noopener">Read more @Html.Raw(Icons.Get("external"))</a>
+                }
+            </article>
+        }
+    </div>
+</section>
+
+<!-- ============ CO-CURRICULAR ============ -->
+<section class="section section-alt" id="activities">
+    <div class="container">
+        <div class="section-head reveal">
+            <span class="kicker">06</span>
+            <h2>@Html.Raw(Icons.Get("star")) Co-curricular Activities</h2>
+        </div>
+        <ol class="timeline">
+            @foreach (var a in Model.Activities)
+            {
+                <li class="timeline-item reveal">
+                    <span class="timeline-period">@a.Period</span>
+                    <div class="timeline-body">
+                        <h3>@a.Title</h3>
+                        <p class="muted-strong">@a.Role</p>
+                        <p class="muted">@a.Description</p>
+                    </div>
+                </li>
+            }
+        </ol>
+    </div>
+</section>
+
+<!-- ============ CONTACT ============ -->
+<section class="section container contact" id="contact">
+    <div class="section-head reveal">
+        <span class="kicker">07</span>
+        <h2>@Html.Raw(Icons.Get("mail")) Contact</h2>
+    </div>
+    <p class="section-lead reveal">My inbox is always open — whether it's an opportunity, a collaboration, or just a hello.</p>
+    <div class="contact-grid">
+        @foreach (var c in Model.Contacts)
+        {
+            <a class="card contact-card reveal" href="@c.Url" target="_blank" rel="noopener">
+                @Html.Raw(Icons.Get(c.Icon))
+                <span class="contact-label">@c.Label</span>
+                <span class="contact-value">@c.Value</span>
+            </a>
+        }
+    </div>
+</section>
