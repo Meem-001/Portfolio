@@ -36,7 +36,11 @@ body {
     -webkit-font-smoothing: antialiased;
 }
 
-.container { width: min(1060px, 92%); margin-inline: auto; }
+/* Made wider to stretch content nicely to the right */
+.container {
+    width: min(1250px, 94%);
+    margin-inline: auto;
+}
 
 .icon { width: 1.15em; height: 1.15em; vertical-align: -0.22em; flex: none; }
 
